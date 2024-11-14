@@ -32,7 +32,7 @@ Cada fragmento de texto se convierte en un vector, que es un conjunto de número
 
 En este proyecto se utiliza el modelo `text-embedding-ada-002` de OpenAI, que genera un vector de 1536 dimensiones para cada fragmento. Este modelo es eficiente en cuanto a costo y precisión, lo que lo hace ideal para tareas de búsqueda y recuperación de información en bases de datos vectoriales.
 
-### Bases de Datos Vectoriales
+## Bases de Datos Vectoriales
 
 Una base de datos vectorial es una herramienta diseñada para almacenar y buscar información en forma de vectores, permitiendo consultas rápidas y eficientes basadas en la similitud semántica del contenido. En este proyecto, utilizamos **Pinecone** como base de datos vectorial para almacenar los embeddings de los fragmentos del manual de empleados, facilitando así la búsqueda de información relevante en respuesta a las consultas del usuario.
 
@@ -60,4 +60,32 @@ La configuración de Pinecone con similitud coseno y 1536 dimensiones proporcion
 - **Optimización para consultas semánticas**: La estructura de Pinecone permite manejar grandes volúmenes de datos y consultas en tiempo real, lo que asegura respuestas rápidas y contextualmente relevantes basadas en el contenido del manual de empleados.
 
 Esta configuración permite que el chatbot responda con precisión y eficiencia a preguntas complejas, aprovechando al máximo la estructura semántica del documento original.
+## Chunking
+
+*Chunking* es el proceso de dividir un texto en fragmentos más pequeños y manejables. Este paso es crucial en documentos largos, como el manual de empleados, para asegurar que las consultas se respondan basándose en fragmentos de contexto relevantes y coherentes. Al dividir el documento en fragmentos, cada uno puede ser procesado de forma independiente, facilitando la recuperación de información precisa y contextual.
+
+### Técnica de Semantic Chunking
+
+En este proyecto, se utiliza *semantic chunking*, una técnica avanzada que divide el texto en fragmentos coherentes en función del significado y contexto, en lugar de utilizar límites fijos de longitud. Esto garantiza que cada fragmento mantenga una idea completa y contextual, lo que mejora la precisión de la búsqueda y respuesta.
+
+#### Ventajas del Semantic Chunking
+
+El *semantic chunking* tiene varias ventajas sobre los métodos tradicionales de chunking basados en longitud fija:
+
+- **Contexto Coherente**: Los fragmentos generados contienen ideas completas, lo que facilita que el modelo de lenguaje interprete y responda preguntas de manera precisa.
+- **Reducción de Respuestas Incompletas**: Al mantener fragmentos semánticamente coherentes, se minimizan las respuestas incompletas o ambiguas, que pueden surgir cuando los fragmentos se cortan en puntos arbitrarios.
+- **Mejor Rendimiento en Consultas**: Al proporcionar fragmentos significativos, el modelo de lenguaje obtiene un contexto más útil para generar respuestas, lo que mejora la relevancia de las mismas.
+
+### Implementación en el Proyecto
+
+1. **División del Documento en Fragmentos Semánticos**: El texto completo del manual de empleados se divide en fragmentos semánticos, asegurando que cada fragmento tenga un contexto lógico y completo. Esto permite que los embeddings representen ideas completas en lugar de solo secciones cortas de texto.
+
+2. **Generación de Embeddings por Fragmento**: Cada fragmento resultante del *semantic chunking* se convierte en un embedding, lo que permite almacenarlo en la base de datos vectorial y realizar búsquedas de manera eficiente.
+
+3. **Optimización en la Recuperación de Respuestas**: Cuando el usuario hace una pregunta, el sistema busca en la base de datos los fragmentos más similares basados en su contenido semántico completo, proporcionando una respuesta más precisa y alineada con la intención de la consulta.
+
+### Justificación del Uso de Semantic Chunking
+
+El *semantic chunking* es especialmente útil para documentos largos y complejos como el manual de empleados, donde el contexto y el flujo de ideas son importantes. En este proyecto, el uso de *semantic chunking* permite que cada fragmento de texto sea útil y completo en sí mismo, optimizando así la precisión del agente al responder preguntas basadas en el contenido del documento.
+
 
