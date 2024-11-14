@@ -62,31 +62,41 @@ La configuración de Pinecone con similitud coseno y 1536 dimensiones proporcion
 Esta configuración permite que el chatbot responda con precisión y eficiencia a preguntas complejas, aprovechando al máximo la estructura semántica del documento original.
 ## Chunking
 
-*Chunking* es el proceso de dividir un texto extenso en fragmentos más pequeños y manejables. Esta técnica es fundamental en documentos largos, como el manual de empleados, para garantizar que las consultas se respondan basándose en fragmentos coherentes y relevantes. Dividir el texto en unidades significativas mejora la precisión y la eficiencia en la búsqueda de información.
+*Chunking* es el proceso de dividir un texto largo en fragmentos más pequeños y manejables para facilitar la búsqueda y recuperación de información. Existen varias técnicas de chunking, cada una con sus ventajas y limitaciones.
 
-### Técnica de Semantic Chunking
+### Tipos de Chunking
 
-En este proyecto se emplea *semantic chunking*, un método avanzado que utiliza embeddings y criterios semánticos para identificar puntos de ruptura en el texto. A diferencia de los métodos tradicionales de chunking que dividen el texto de manera uniforme (por palabras o caracteres), el *semantic chunking* segmenta el texto en fragmentos lógicamente completos, asegurando que cada fragmento mantenga un contexto coherente y representativo.
+1. **Fixed Size Chunking**: Este método divide el texto en fragmentos de tamaño fijo en función de un número determinado de tokens, y opcionalmente añade un solapamiento entre fragmentos para mantener el contexto. Es una opción popular debido a su simplicidad y bajo coste computacional, pero puede interrumpir ideas y perder coherencia semántica.
 
-#### Funcionamiento del Semantic Chunking
+2. **Recursive Chunking**: Utiliza un enfoque jerárquico para dividir el texto en fragmentos mediante un conjunto de separadores. Si la primera división no logra el tamaño o estructura deseados, se aplica recursivamente con diferentes criterios. Este método permite una mejor estructura de los fragmentos que se ajusta a diferentes tamaños, aunque puede requerir más procesamiento.
 
-1. **Generación de Embeddings Iniciales**: El proceso comienza aplicando un modelo de embeddings, como `text-embedding-ada-002`, para representar el texto completo en un espacio vectorial. Cada fragmento potencial del texto se representa como un vector de alta dimensionalidad que captura su contenido semántico.
+3. **Document Specific Chunking**: Este enfoque considera la estructura del documento, creando fragmentos basados en secciones lógicas como párrafos o subsecciones. Es ideal para documentos estructurados, ya que respeta la organización original del autor y es particularmente útil para formatos con estructura clara, como HTML o Markdown.
 
-2. **Identificación de Puntos de Ruptura Semánticos**: Utilizando el modelo de *SemanticChunker*, se detectan cambios en el contenido semántico en base a un umbral de ruptura (*breakpoint threshold*) que se configura por percentil. Este umbral define la "profundidad" de la segmentación, asegurando que solo se realicen rupturas en puntos donde el contenido cambia significativamente, lo que minimiza el riesgo de interrumpir ideas o contextos importantes.
+4. **Semantic Chunking**: A diferencia de los métodos anteriores, el *semantic chunking* se basa en el significado y las relaciones contextuales del texto. En lugar de dividir el texto en función de la longitud o de secciones predefinidas, agrupa oraciones que son semánticamente similares en fragmentos completos de ideas. Esto se logra calculando los embeddings de cada oración y luego agrupando las oraciones que son semánticamente cercanas.
 
-3. **Segmentación en Fragmentos Coherentes**: Una vez identificados los puntos de ruptura, el texto se divide en fragmentos semánticos, donde cada fragmento representa una unidad lógica completa. Estos fragmentos capturan ideas o secciones con significado completo, lo que facilita que el sistema de recuperación utilice este contexto para encontrar respuestas precisas.
+### Funcionamiento del Semantic Chunking
 
-4. **Generación de Embeddings Específicos para Cada Fragmento**: Finalmente, se genera un embedding para cada fragmento resultante del *semantic chunking*. Estos embeddings permiten almacenar cada fragmento en una base de datos vectorial y realizar búsquedas precisas. Los embeddings por fragmento reflejan el contexto completo de cada unidad de texto, maximizando la precisión de las búsquedas basadas en similitud.
+El proceso de *semantic chunking* implica los siguientes pasos:
 
-#### Justificación Técnica del Uso de Semantic Chunking
+- **Separación en Oraciones**: El documento se divide en oraciones individuales, utilizando puntuaciones como puntos, signos de interrogación y signos de exclamación como separadores.
+  
+- **Generación y Comparación de Embeddings**: Se generan embeddings para cada oración y se calcula la similitud entre las oraciones para identificar relaciones semánticas cercanas.
+  
+- **Agrupación de Oraciones**: Las oraciones se agrupan basándose en su proximidad semántica. Se añade un “buffer” de oraciones cercanas para cada grupo seleccionado, creando fragmentos que son contextualmente completos y coherentes.
 
-El *semantic chunking* proporciona una segmentación optimizada y permite generar embeddings que son más representativos en comparación con los métodos de chunking de longitud fija. Los fragmentos semánticos, al conservar el contexto y la coherencia lógica, mejoran significativamente la relevancia y precisión de las respuestas generadas. Esta técnica es particularmente útil en documentos extensos y complejos, donde la interrupción arbitraria de ideas podría llevar a respuestas incompletas o ambiguas.
+- **Fusión y División de Grupos**: Los grupos de oraciones similares se fusionan para formar fragmentos significativos y se dividen aquellos que no comparten una relación semántica fuerte, manteniendo la coherencia de cada fragmento.
 
-### Ventajas Técnicas del Semantic Chunking en el Proyecto
+### Ventajas del Semantic Chunking
 
-- **Reducción de Pérdida de Contexto**: La segmentación semántica asegura que cada fragmento retenga un contexto completo, eliminando la necesidad de unir fragmentos parciales para construir respuestas coherentes.
-- **Mejora en la Relevancia de las Respuestas**: Al trabajar con fragmentos que representan ideas completas, el modelo de lenguaje puede generar respuestas basadas en contextos más precisos, mejorando la relevancia de la información proporcionada.
-- **Optimización de la Búsqueda Semántica**: Al aplicar un umbral de ruptura basado en percentiles, el sistema garantiza una segmentación dinámica que se ajusta al contenido específico del documento, en lugar de seguir una longitud fija.
+*Semantic chunking* ofrece ventajas importantes frente a otros métodos de chunking:
 
-Esta estrategia permite al chatbot responder de manera más precisa y eficiente a preguntas basadas en el contenido del documento, maximizando la utilidad y relevancia de cada fragmento en el contexto de las consultas del usuario.
+- **Contexto Completo y Coherente**: A diferencia de los fragmentos de tamaño fijo o los fragmentos basados en secciones predefinidas, cada fragmento creado mediante *semantic chunking* mantiene la integridad del contenido. Esto significa que las respuestas generadas a partir de estos fragmentos son más precisas y contextualmente relevantes.
+
+- **Mejora en la Precisión de Recuperación**: Al crear fragmentos basados en la relación semántica de las oraciones, el *semantic chunking* reduce las interrupciones en las ideas y mejora la relevancia de las respuestas. Esto es particularmente útil para consultas complejas donde la integridad semántica del texto es clave.
+
+- **Ideal para Documentos No Estructurados**: En documentos extensos sin una estructura clara (como artículos largos o documentos extensos), el *semantic chunking* permite agrupar el contenido en unidades significativas, superando las limitaciones de los métodos basados en tamaño o en estructura.
+
+### Consideraciones de Desempeño
+
+Aunque el *semantic chunking* ofrece fragmentos de mayor calidad, también es más lento y computacionalmente intensivo que las técnicas de chunking más simples. La generación de embeddings y el cálculo de similitud para cada oración aumentan la carga computacional, lo que lo hace menos eficiente en aplicaciones donde la velocidad es prioritaria. Sin embargo, su rendimiento superior en términos de precisión y relevancia de las respuestas lo convierte en la mejor opción cuando se busca mantener la integridad semántica del texto durante la recuperación.
 
