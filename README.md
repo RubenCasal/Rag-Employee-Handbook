@@ -96,7 +96,27 @@ El proceso de *semantic chunking* implica los siguientes pasos:
 
 - **Ideal para Documentos No Estructurados**: En documentos extensos sin una estructura clara (como artículos largos o documentos extensos), el *semantic chunking* permite agrupar el contenido en unidades significativas, superando las limitaciones de los métodos basados en tamaño o en estructura.
 
-### Consideraciones de Desempeño
+## Tutorial de Uso
 
-Aunque el *semantic chunking* ofrece fragmentos de mayor calidad, también es más lento y computacionalmente intensivo que las técnicas de chunking más simples. La generación de embeddings y el cálculo de similitud para cada oración aumentan la carga computacional, lo que lo hace menos eficiente en aplicaciones donde la velocidad es prioritaria. Sin embargo, su rendimiento superior en términos de precisión y relevancia de las respuestas lo convierte en la mejor opción cuando se busca mantener la integridad semántica del texto durante la recuperación.
+Sigue estos pasos para configurar y ejecutar el chatbot del manual de empleados.
 
+### Paso 1: Configura las API Keys
+
+Crea un archivo `.env` en el directorio raíz del proyecto e incluye las claves de OpenAI y Pinecone:
+
+```plaintext
+OPENAI_API_KEY = 'tu_openai_api_key'
+PINECONE_API_KEY = 'tu_pinecone_api_key'
+```
+
+### Paso 2: Procesa el Documento y Crea la Base de Datos Vectorial
+
+Ejercuta el archivo embedding.py indicando la funcion main la ruta del archivo pdf y el nombre deseado para la base de datos vectorial
+```bash
+python embedding.py
+```
+### Paso 3: Ejecuta la Aplicación en Streamlit
+Inicia la interfaz de usuario con el siguiente comando para empezar a interactuar con el bot
+```bash
+streamlit run app.py
+```
