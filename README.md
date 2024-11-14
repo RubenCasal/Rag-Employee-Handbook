@@ -1,8 +1,14 @@
 # RAG Employee Handbook Chatbot
 ## DEMO
-![Demo Video](./read_images/demo.gif)
+<p align="center">
+  <img src="./readme_images/demo.gif" alt="Demo Video" width="500" />
+</p>
 
-[Watch the full video on YouTube]([https://youtu.be/qO9DAAGrzR4](https://youtu.be/4x8MaTNYkTY))
+<p align="center">
+  <a href="https://youtu.be/4x8MaTNYkTY" target="_blank">Watch the full video on YouTube</a>
+</p>
+
+## Introducción
 Este proyecto implementa un agente conversacional que responde preguntas sobre documentos PDF largos, usando el "Google Employee Handbook" como ejemplo. A través de técnicas de *Retrieval-Augmented Generation (RAG)*, el chatbot combina búsqueda y generación de respuestas basadas exclusivamente en el contenido del manual. El objetivo es facilitar consultas rápidas y precisas sobre políticas y procedimientos del manual, optimizando el acceso a información corporativa clave en documentos extensos como el del ejemplo que cuenta con más de 60 paginas.
 
 ### Componentes Clave
@@ -97,6 +103,7 @@ El proceso de *semantic chunking* implica los siguientes pasos:
 <p align="center">
   <img src="readme_images/semantic_chunking.png" alt="Imagen 2" width="600"/>
 </p>
+
 ### Ventajas del Semantic Chunking
 
 *Semantic chunking* ofrece ventajas importantes frente a otros métodos de chunking:
