@@ -32,26 +32,32 @@ Cada fragmento de texto se convierte en un vector, que es un conjunto de número
 
 En este proyecto se utiliza el modelo `text-embedding-ada-002` de OpenAI, que genera un vector de 1536 dimensiones para cada fragmento. Este modelo es eficiente en cuanto a costo y precisión, lo que lo hace ideal para tareas de búsqueda y recuperación de información en bases de datos vectoriales.
 
-## Bases de Datos Vectoriales
+### Bases de Datos Vectoriales
 
-Una base de datos vectorial es una herramienta diseñada para almacenar y buscar información representada en forma de vectores. En este proyecto, utilizamos **Pinecone** como base de datos vectorial para almacenar los embeddings del manual de empleados, lo que permite realizar búsquedas semánticas eficientes y precisas.
+Una base de datos vectorial es una herramienta diseñada para almacenar y buscar información en forma de vectores, permitiendo consultas rápidas y eficientes basadas en la similitud semántica del contenido. En este proyecto, utilizamos **Pinecone** como base de datos vectorial para almacenar los embeddings de los fragmentos del manual de empleados, facilitando así la búsqueda de información relevante en respuesta a las consultas del usuario.
 
-### ¿Por Qué Usar una Base de Datos Vectorial?
+### Configuración de la Base de Datos en Pinecone
 
-Al convertir los fragmentos del manual en vectores mediante embeddings, el sistema puede buscar fragmentos basados en la similitud de su contenido semántico. Esto permite que el chatbot identifique rápidamente el contenido más relevante en respuesta a una consulta, independientemente de las palabras exactas usadas en la pregunta.
+La configuración del índice en Pinecone incluye los siguientes parámetros:
 
-### Pinecone en el Proyecto
-
-**Pinecone** es una base de datos vectorial que permite almacenar grandes volúmenes de vectores y realizar búsquedas rápidas usando medidas de similitud, como la similitud coseno. En este proyecto, cada fragmento del manual de empleados se almacena en Pinecone junto con su embedding, facilitando una recuperación precisa de información.
+- **Nombre del índice**: El índice tiene un nombre específico que facilita su identificación y manejo.
+- **Dimensiones del vector**: Cada vector tiene 1536 dimensiones, que es el tamaño del embedding generado por el modelo `text-embedding-ada-002` de OpenAI. Este número de dimensiones permite capturar patrones y relaciones semánticas complejas, lo que mejora la precisión de las búsquedas al representar conceptos abstractos y contextuales.
+- **Métrica de similitud**: Se utiliza la similitud coseno en lugar de otras métricas. La similitud coseno mide el ángulo entre dos vectores en un espacio multidimensional, lo cual es ideal cuando se desea evaluar la similitud de contenido sin considerar la magnitud de los vectores. Esta métrica es particularmente adecuada para embeddings de texto, donde la similitud semántica es más importante que la escala.
 
 ### Implementación en el Proyecto
 
-1. **Inicialización de Pinecone**: Primero, el código carga la clave de API de Pinecone y conecta con el servicio.
+1. **Inicialización de Pinecone**: Se carga la clave de API de Pinecone y se establece una conexión con el servicio, permitiendo el acceso y uso de las funcionalidades de la base de datos vectorial.
 
-2. **Creación del Índice**: Se crea un índice en Pinecone, donde cada fragmento del manual es almacenado con su embedding. El índice permite definir la métrica de similitud (coseno en este caso) y la dimensión de los vectores.
+2. **Creación del Índice**: El índice se configura con el nombre específico, la cantidad de dimensiones y la métrica de similitud coseno. Este índice almacena cada fragmento del manual de empleados junto con su embedding, lo que permite realizar búsquedas basadas en la similitud semántica de manera rápida y precisa.
 
-3. **Búsqueda de Fragmentos Relevantes**: Cuando un usuario hace una pregunta, el sistema genera un embedding de la consulta y busca en Pinecone los fragmentos de texto más similares. Esto asegura que solo se usen los fragmentos más relevantes para generar la respuesta.
+3. **Búsqueda de Fragmentos Relevantes**: Cuando el usuario hace una pregunta, el sistema genera un embedding de la consulta y lo compara con los embeddings en Pinecone. Los fragmentos con mayor similitud coseno se seleccionan como los más relevantes para responder la consulta del usuario.
 
-### Ventajas de Usar Pinecone
+### Ventajas de Usar Pinecone con Similitud Coseno
 
-Al utilizar Pinecone, el proyecto obtiene acceso a una infraestructura de búsqueda vectorial optimizada y escalable, que puede manejar grandes volúmenes de datos y consultas en tiempo real. Esto permite que el chatbot responda de manera rápida y precisa, basándose en información relevante del manual de empleados.
+La configuración de Pinecone con similitud coseno y 1536 dimensiones proporciona:
+
+- **Precisión en la búsqueda**: La similitud coseno permite encontrar fragmentos de texto con significados similares, mejorando la relevancia de las respuestas.
+- **Optimización para consultas semánticas**: La estructura de Pinecone permite manejar grandes volúmenes de datos y consultas en tiempo real, lo que asegura respuestas rápidas y contextualmente relevantes basadas en el contenido del manual de empleados.
+
+Esta configuración permite que el chatbot responda con precisión y eficiencia a preguntas complejas, aprovechando al máximo la estructura semántica del documento original.
+
