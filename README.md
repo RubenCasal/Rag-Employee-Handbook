@@ -8,6 +8,6 @@ Este proyecto implementa un agente conversacional que responde preguntas sobre d
   
 - **División Semántica del Texto**: Se utiliza *semantic chunking* para dividir el texto en fragmentos coherentes, facilitando respuestas más exactas.
   
-- **Modelos de OpenAI**: Modelos como GPT-3.5 generan respuestas utilizando los fragmentos recuperados, respondiendo a las preguntas en el contexto del manual.
+- **Modelos de OpenAI**: Modelos como *GPT-3.5* o *text-embedding-ada-002*, para generar respuestas utilizando los fragmentos recuperados, o pasar a embedding los distintos fragmentos del texto, los cuales permiten responder a las preguntas del manual.
 
 
