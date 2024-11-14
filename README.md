@@ -68,6 +68,16 @@ Esta configuración permite que el chatbot responda con precisión y eficiencia 
 
 En este proyecto, se utiliza *semantic chunking*, una técnica avanzada que divide el texto en fragmentos coherentes en función del significado y contexto, en lugar de utilizar límites fijos de longitud. Esto garantiza que cada fragmento mantenga una idea completa y contextual, lo que mejora la precisión de la búsqueda y respuesta.
 
+#### ¿Cómo Funciona el Semantic Chunking?
+
+1. **Análisis del Texto Completo**: A diferencia de los métodos tradicionales que cortan el texto en bloques de un número específico de caracteres o palabras, el *semantic chunking* comienza con un análisis del contenido para identificar puntos de ruptura naturales basados en el contexto y el significado. Esto asegura que cada fragmento tenga una idea coherente y no se interrumpa en puntos arbitrarios.
+
+2. **Identificación de Temas y Contextos**: El algoritmo de *semantic chunking* identifica temas, ideas principales y contextos en el texto. Se basa en la detección de cambios en el flujo de ideas, como el inicio de un nuevo tema o la conclusión de uno existente, para definir dónde deben comenzar y terminar los fragmentos.
+
+3. **Creación de Fragmentos Cohesivos**: Una vez identificados los puntos de ruptura semánticos, el texto se divide en fragmentos que reflejan unidades de significado. Cada fragmento es una porción de texto que tiene sentido por sí misma, lo que facilita que el sistema interprete y utilice el contexto completo de ese fragmento al buscar respuestas.
+
+4. **Generación de Embeddings Específicos para Cada Fragmento**: Al dividir el texto en fragmentos con significado completo, se obtienen embeddings más representativos. Cada vector generado captura el contexto total de la idea en ese fragmento, mejorando así la calidad y precisión de las búsquedas.
+
 #### Ventajas del Semantic Chunking
 
 El *semantic chunking* tiene varias ventajas sobre los métodos tradicionales de chunking basados en longitud fija:
@@ -76,16 +86,6 @@ El *semantic chunking* tiene varias ventajas sobre los métodos tradicionales de
 - **Reducción de Respuestas Incompletas**: Al mantener fragmentos semánticamente coherentes, se minimizan las respuestas incompletas o ambiguas, que pueden surgir cuando los fragmentos se cortan en puntos arbitrarios.
 - **Mejor Rendimiento en Consultas**: Al proporcionar fragmentos significativos, el modelo de lenguaje obtiene un contexto más útil para generar respuestas, lo que mejora la relevancia de las mismas.
 
-### Implementación en el Proyecto
-
-1. **División del Documento en Fragmentos Semánticos**: El texto completo del manual de empleados se divide en fragmentos semánticos, asegurando que cada fragmento tenga un contexto lógico y completo. Esto permite que los embeddings representen ideas completas en lugar de solo secciones cortas de texto.
-
-2. **Generación de Embeddings por Fragmento**: Cada fragmento resultante del *semantic chunking* se convierte en un embedding, lo que permite almacenarlo en la base de datos vectorial y realizar búsquedas de manera eficiente.
-
-3. **Optimización en la Recuperación de Respuestas**: Cuando el usuario hace una pregunta, el sistema busca en la base de datos los fragmentos más similares basados en su contenido semántico completo, proporcionando una respuesta más precisa y alineada con la intención de la consulta.
-
 ### Justificación del Uso de Semantic Chunking
 
 El *semantic chunking* es especialmente útil para documentos largos y complejos como el manual de empleados, donde el contexto y el flujo de ideas son importantes. En este proyecto, el uso de *semantic chunking* permite que cada fragmento de texto sea útil y completo en sí mismo, optimizando así la precisión del agente al responder preguntas basadas en el contenido del documento.
-
-
