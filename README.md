@@ -1,5 +1,8 @@
 # RAG Employee Handbook Chatbot
+## DEMO
+![Demo Video](./read_images/demo.gif)
 
+[Watch the full video on YouTube]([https://youtu.be/qO9DAAGrzR4](https://youtu.be/4x8MaTNYkTY))
 Este proyecto implementa un agente conversacional que responde preguntas sobre documentos PDF largos, usando el "Google Employee Handbook" como ejemplo. A través de técnicas de *Retrieval-Augmented Generation (RAG)*, el chatbot combina búsqueda y generación de respuestas basadas exclusivamente en el contenido del manual. El objetivo es facilitar consultas rápidas y precisas sobre políticas y procedimientos del manual, optimizando el acceso a información corporativa clave en documentos extensos como el del ejemplo que cuenta con más de 60 paginas.
 
 ### Componentes Clave
@@ -19,6 +22,9 @@ En un sistema RAG:
 2. **Generación**: Luego, un modelo generativo, como GPT-3.5, utiliza los fragmentos recuperados como contexto para construir una respuesta informada y específica a la pregunta.
 
 Este enfoque permite que el modelo responda a preguntas complejas utilizando información actualizada y específica, incluso cuando el contenido de la respuesta no está integrado directamente en los parámetros del modelo. RAG es ideal para aplicaciones donde es fundamental responder basándose en datos precisos y extensos, como en el caso de este proyecto, que consulta un manual de empleados extenso.
+<p align="center">
+  <img src="readme_images/RAG.jpg" alt="Imagen 2" width="600"/>
+</p>
 
 ## Embeddings
 
@@ -60,6 +66,9 @@ La configuración de Pinecone con similitud coseno y 1536 dimensiones proporcion
 - **Optimización para consultas semánticas**: La estructura de Pinecone permite manejar grandes volúmenes de datos y consultas en tiempo real, lo que asegura respuestas rápidas y contextualmente relevantes basadas en el contenido del manual de empleados.
 
 Esta configuración permite que el chatbot responda con precisión y eficiencia a preguntas complejas, aprovechando al máximo la estructura semántica del documento original.
+<p align="center">
+  <img src="readme_images/pinecone.png" alt="Imagen 2" width="600"/>
+</p>
 ## Chunking
 
 *Chunking* es el proceso de dividir un texto largo en fragmentos más pequeños y manejables para facilitar la búsqueda y recuperación de información. Existen varias técnicas de chunking, cada una con sus ventajas y limitaciones.
@@ -85,7 +94,9 @@ El proceso de *semantic chunking* implica los siguientes pasos:
 - **Agrupación de Oraciones**: Las oraciones se agrupan basándose en su proximidad semántica. Se añade un “buffer” de oraciones cercanas para cada grupo seleccionado, creando fragmentos que son contextualmente completos y coherentes.
 
 - **Fusión y División de Grupos**: Los grupos de oraciones similares se fusionan para formar fragmentos significativos y se dividen aquellos que no comparten una relación semántica fuerte, manteniendo la coherencia de cada fragmento.
-
+<p align="center">
+  <img src="readme_images/semantic_chunking.png" alt="Imagen 2" width="600"/>
+</p>
 ### Ventajas del Semantic Chunking
 
 *Semantic chunking* ofrece ventajas importantes frente a otros métodos de chunking:
