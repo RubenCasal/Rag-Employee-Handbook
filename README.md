@@ -32,15 +32,26 @@ Cada fragmento de texto se convierte en un vector, que es un conjunto de número
 
 En este proyecto se utiliza el modelo `text-embedding-ada-002` de OpenAI, que genera un vector de 1536 dimensiones para cada fragmento. Este modelo es eficiente en cuanto a costo y precisión, lo que lo hace ideal para tareas de búsqueda y recuperación de información en bases de datos vectoriales.
 
+## Bases de Datos Vectoriales
+
+Una base de datos vectorial es una herramienta diseñada para almacenar y buscar información representada en forma de vectores. En este proyecto, utilizamos **Pinecone** como base de datos vectorial para almacenar los embeddings del manual de empleados, lo que permite realizar búsquedas semánticas eficientes y precisas.
+
+### ¿Por Qué Usar una Base de Datos Vectorial?
+
+Al convertir los fragmentos del manual en vectores mediante embeddings, el sistema puede buscar fragmentos basados en la similitud de su contenido semántico. Esto permite que el chatbot identifique rápidamente el contenido más relevante en respuesta a una consulta, independientemente de las palabras exactas usadas en la pregunta.
+
+### Pinecone en el Proyecto
+
+**Pinecone** es una base de datos vectorial que permite almacenar grandes volúmenes de vectores y realizar búsquedas rápidas usando medidas de similitud, como la similitud coseno. En este proyecto, cada fragmento del manual de empleados se almacena en Pinecone junto con su embedding, facilitando una recuperación precisa de información.
+
 ### Implementación en el Proyecto
 
-1. **Generación de Embeddings**: En el código, los embeddings se generan para cada fragmento del manual de empleados utilizando el modelo `text-embedding-ada-002` de OpenAI.
+1. **Inicialización de Pinecone**: Primero, el código carga la clave de API de Pinecone y conecta con el servicio.
 
-   ```python
-   from langchain_openai.embeddings import OpenAIEmbeddings
+2. **Creación del Índice**: Se crea un índice en Pinecone, donde cada fragmento del manual es almacenado con su embedding. El índice permite definir la métrica de similitud (coseno en este caso) y la dimensión de los vectores.
 
-   # Inicializa el modelo de embeddings de OpenAI
-   embedding_model = OpenAIEmbeddings(model="text-embedding-ada-002")
+3. **Búsqueda de Fragmentos Relevantes**: Cuando un usuario hace una pregunta, el sistema genera un embedding de la consulta y busca en Pinecone los fragmentos de texto más similares. Esto asegura que solo se usen los fragmentos más relevantes para generar la respuesta.
 
-   # Genera el embedding para cada fragmento
-   embedding = embedding_model.embed_query(doc.page_content)
+### Ventajas de Usar Pinecone
+
+Al utilizar Pinecone, el proyecto obtiene acceso a una infraestructura de búsqueda vectorial optimizada y escalable, que puede manejar grandes volúmenes de datos y consultas en tiempo real. Esto permite que el chatbot responda de manera rápida y precisa, basándose en información relevante del manual de empleados.
