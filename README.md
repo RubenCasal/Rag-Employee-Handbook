@@ -20,3 +20,27 @@ En un sistema RAG:
 
 Este enfoque permite que el modelo responda a preguntas complejas utilizando información actualizada y específica, incluso cuando el contenido de la respuesta no está integrado directamente en los parámetros del modelo. RAG es ideal para aplicaciones donde es fundamental responder basándose en datos precisos y extensos, como en el caso de este proyecto, que consulta un manual de empleados extenso.
 
+## Embeddings
+
+Los *embeddings* son representaciones vectoriales de texto que capturan el significado semántico de palabras, frases o fragmentos de texto de forma numérica. En el contexto de este proyecto, los embeddings son fundamentales para comparar la similitud entre las consultas del usuario y los fragmentos del documento, permitiendo que el chatbot identifique las respuestas relevantes en el manual de empleados.
+
+### Cómo Funcionan los Embeddings
+
+Cada fragmento de texto se convierte en un vector, que es un conjunto de números que representan el contenido semántico de ese fragmento. Al calcular la similitud entre el vector de la pregunta del usuario y los vectores de cada fragmento del documento, se puede identificar el fragmento que más se asemeja al contenido de la pregunta.
+
+### Modelo Utilizado
+
+En este proyecto se utiliza el modelo `text-embedding-ada-002` de OpenAI, que genera un vector de 1536 dimensiones para cada fragmento. Este modelo es eficiente en cuanto a costo y precisión, lo que lo hace ideal para tareas de búsqueda y recuperación de información en bases de datos vectoriales.
+
+### Implementación en el Proyecto
+
+1. **Generación de Embeddings**: En el código, los embeddings se generan para cada fragmento del manual de empleados utilizando el modelo `text-embedding-ada-002` de OpenAI.
+
+   ```python
+   from langchain_openai.embeddings import OpenAIEmbeddings
+
+   # Inicializa el modelo de embeddings de OpenAI
+   embedding_model = OpenAIEmbeddings(model="text-embedding-ada-002")
+
+   # Genera el embedding para cada fragmento
+   embedding = embedding_model.embed_query(doc.page_content)
